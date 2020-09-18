@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+
+<body>
+  <div>
+    <a-scene embedded arjs>
+      <a-assets>
+        <a-asset-item id="a-side-obj" src="assets/outer-box-a.obj"></a-asset-item>
+        <a-asset-item id="a-side-mtl" src="assets/outer-box-a.mtl"></a-asset-item>
+        <a-asset-item id="kanji-side-obj" src="assets/outer-box-kenji-50.obj"></a-asset-item>
+        <a-asset-item id="kanji-side-mtl" src="assets/outer-box-kenji-50.mtl"></a-asset-item>
+        <a-asset-item id="b-obj" src="assets/inner-box-b.obj"></a-asset-item>
+        <a-asset-item id="b-mtl" src="assets/inner-box-b.mtl"></a-asset-item>
+        <a-asset-item id="c-obj" src="assets/inner-box-c.obj"></a-asset-item>
+        <a-asset-item id="c-mtl" src="assets/inner-box-c.mtl"></a-asset-item>
+      </a-assets>
+      
+      <a-entity camera look-controls>
+        <a-marker markerhandler preset='custom' type='pattern' url='assets/patterns/letterA.patt'>
+          <a-obj-model visible="false" position="0, 0, 0" scale="1, 1, 1" rotation="0 0 0" src="#a-side-obj" mtl="#a-side-mtl">
+          </a-obj-model>
+        </a-marker>
+      </a-entity>
+
+      <a-entity camera look-controls>
+        <a-marker markerhandler preset='custom' type='pattern' url='assets/patterns/kanji.patt'>
+          <a-obj-model visible="false" position="0, 0, 0" scale="1, 1, 1" rotation="0 0 0" src="#kanji-side-obj"
+            mtl="#kanji-side-mtl">
+          </a-obj-model>
+        </a-marker>
+      </a-entity>
+
+      <a-entity camera look-controls>
+        <a-marker markerhandler preset='custom' type='pattern' url='assets/patterns/letterB.patt'>
+          <a-obj-model visible="false" position="0, 0, 0" scale="1, 1, 1" rotation="0 0 0" src="#b-obj"
+            mtl="#b-mtl">
+          </a-obj-model>
+        </a-marker>
+      </a-entity>
+
+      <a-entity camera look-controls>
+        <a-marker markerhandler preset='custom' type='pattern' url='assets/patterns/letterC.patt'>
+          <a-obj-model visible="false" position="0, 0, 0" scale="1, 1, 1" rotation="0 0 0" src="#c-obj"
+            mtl="#c-mtl">
+          </a-obj-model>
+        </a-marker>
+      </a-entity>
+    </a-scene>
+  </div>
+  <div></div>
+</body>
+<script>
+  AFRAME.registerComponent('markerhandler', {
+    init: function () {
+      this.el.addEventListener('markerFound', (e) => {
+        console.log('marker');
+        e.target.children[0].object3D.visible = true;
+      });
+
+      this.el.addEventListener('markerLost', (e) => {
+        e.target.children[0].object3D.visible = false;
+      });
+    },
+  });
+</script>
+</html>
